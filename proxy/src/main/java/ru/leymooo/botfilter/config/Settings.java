@@ -13,14 +13,14 @@ public class Settings extends Config
 
     @Comment(
         {
-        "Все ошибки, баги, предложения и прочее просьба писать на гитхабе "
+        "请在github上提交所有错误、bug、建议和其他请求 "
         })
     @Final
     public final String ISSUES = "https://github.com/Leymooo/BungeeCord/issues";
     @Final
     public final String HELP = "http://www.rubukkit.org/threads/137038/";
     @Final
-    public String BOT_FILTER_VERSION = "3.8.14-dev";
+    public String BOT_FILTER_VERSION = "3.8.13";
 
     @Create
     public MESSAGES MESSAGES;
@@ -38,23 +38,23 @@ public class Settings extends Config
     public SQL SQL;
     @Comment(
         {
-        "Сколько игроков/ботов должно зайти за 1 минуту, чтобы включилась защита",
-        "Рекомендуемые параметры когда нет рекламы: ",
-        "До 150 онлайна - 25, до 250 - 30, до 350 - 35, до 550 - 40,45, выше - подстраивать под себя ",
-        "Во время рекламы или когда токо, токо поставили защиту рекомендуется повышать эти значения"
+        "当1分钟内有多少玩家/假人进入服务器时，自动启用保护",
+        "无推广/活动时的推荐数值: ",
+        "低于150名玩家 - 25, 低于250 - 30, 低于350 - 35, 低于550 - 40,45, 更多玩家 - 自行调整 ",
+        "在推广/活动时期或刚设置保护的时候, 推荐将这些数值调高"
         })
     public int PROTECTION_THRESHOLD = 30;
-    @Comment("Как долго активна автоматическая защита? В миллисекундах. 1 сек = 1000")
+    @Comment("自动保护的持续时间, 以毫秒为单位. 1秒=1000毫秒")
     public int PROTECTION_TIME = 120000;
-    @Comment("Проверять ли на бота при заходе на сервер во время бот атаки, не зависимо проходил ли проверку или нет")
+    @Comment("在被假人攻击时, 进入服务器是否强制检查. 不论通过与否, 都会被强制检查")
     public boolean FORCE_CHECK_ON_ATTACK = true;
-    @Comment("Показывать ли онлайн с фильтра")
+    @Comment("是否在在线人数上加上在过滤器中(验证中)的玩家")
     public boolean SHOW_ONLINE = true;
-    @Comment("Сколько времени есть у игрока чтобы пройти защиту. В миллисекундах. 1 сек = 1000")
+    @Comment("玩家必须在多少时间内完成验证, 以毫秒为单位. 1秒=1000毫秒")
     public int TIME_OUT = 12700;
-    @Comment("Включить ли фикс от 'Team 'xxx' already exist in this scoreboard'")
+    @Comment("是否启用客户端 'Team 'xxx' already exist in this scoreboard 报错的修复？'")
     public boolean FIX_SCOREBOARD_TEAMS = true;
-    @Comment("Записывать ли IP адреса игроков/ботов которые провалили проверку в файл?")
+    @Comment("是否将未通过验证的玩家/假人的IP记录到文件中??")
     public boolean SAVE_FAILED_IPS_TO_FILE = true;
 
     public void reload(File file)
@@ -63,117 +63,117 @@ public class Settings extends Config
         save( file );
     }
 
-    @Comment("Не используйте '\\n', используйте %nl%")
+    @Comment("如果要换行，请不要使用 '\\n', 应该使用 %nl%")
     public static class MESSAGES
     {
 
         public String PREFIX = "&b&lBot&d&lFilter";
-        public String CHECKING = "%prefix%&7>> &aОжидайте завершения проверки...";
-        public String CHECKING_CAPTCHA = "%prefix%&7>> &aВведите номер с картинки в чат";
-        public String CHECKING_CAPTCHA_WRONG = "%prefix%&7>> &cВы ввели капчу неправильно, пожалуйста попробуйте ещё раз. У вас &a%s &c%s";
-        public String SUCCESSFULLY = "%prefix%&7>> &aПроверка пройдена, приятной игры";
-        public String KICK_MANY_CHECKS = "%prefix%%nl%%nl%&cС вашего айпи замечена подозрительная активность%nl%%nl%&6Повторите попытку через 10 минут";
-        public String KICK_NOT_PLAYER = "%prefix%%nl%%nl%&cВы не прошли проверку, возможно вы бот%nl%&7&oЕсли это не так, пожалуйста повторите попытку";
-        public String KICK_COUNTRY = "%prefix%%nl%%nl%&cВаша страна запрещена на серверве";
-        public String KICK_BIG_PING = "%prefix%%nl%%nl%&cУ вас очень высокий пинг, скорее всего вы бот";
+        public String CHECKING = "%prefix%&7>> &a等待检查完成…";
+        public String CHECKING_CAPTCHA = "%prefix%&7>> &a在聊天框中输入图片中的数字";
+        public String CHECKING_CAPTCHA_WRONG = "%prefix%&7>> &c您输入错误的验证码，请再试一次.你还可以尝试 &a%s &c%s 次";
+        public String SUCCESSFULLY = "%prefix%&7>> &a检查通过，祝你玩得开心";
+        public String KICK_MANY_CHECKS = "%prefix%%nl%%nl%&c我们检测到了来自于你的IP地址的可疑活动%nl%%nl%&6请在10分钟后重试";
+        public String KICK_NOT_PLAYER = "%prefix%%nl%%nl%&c你没有通过验证, 你是个假人吗?%nl%&7&o如果不是, 请重试";
+        public String KICK_COUNTRY = "%prefix%%nl%%nl%&c你所在的国家被禁止进入服务器";
+        public String KICK_BIG_PING = "%prefix%%nl%%nl%&c你的延迟过高,请切换网络后重试";
         @Comment(
             {
-            "Title%nl%Subtitle", "Оставьте пустым, чтобы отключить( прм: CHECKING_TITLE = \"\" )",
-            "Отключение титлов может немного улучшить производительность"
+            "标题%nl%副标题", "您可以留空以禁用标题 (例如: CHECKING_TITLE = \"\") ",
+            "禁用标题可能会略微提高性能"
             })
-        public String CHECKING_TITLE = "&r&lBot&b&lFilter%nl%&aИдёт проверка";
-        public String CHECKING_TITLE_SUS = "&rПроверка пройдена%nl%&aПриятной игры";
-        public String CHECKING_TITLE_CAPTCHA = " %nl%&rВведите капчу в чат!";
+        public String CHECKING_TITLE = "&r&lBot&b&lFilter%nl%&a检查中...";
+        public String CHECKING_TITLE_SUS = "&r验证通过%nl%&a祝您游戏愉快";
+        public String CHECKING_TITLE_CAPTCHA = " %nl%&r请在聊天栏中输入验证码!";
     }
 
-    @Comment("Включить или отключить GeoIp")
+    @Comment("是否启用 GeoIp 检查")
     public static class GEO_IP
     {
 
         @Comment(
             {
-            "Когда работает проверка",
-            "0 - Всегда",
-            "1 - Только во время бот атаки",
-            "2 - Отключить"
+            "在什么时候启用该检查?",
+            "0 - 总是",
+            "1 - 只在被假人攻击时",
+            "2 - 禁用"
             })
         public int MODE = 1;
         @Comment(
             {
-            "Как именно работает GeoIp",
-            "0 - White list(Зайти могут только те страны, которые есть в списке)",
-            "1 - Black list(Зайти могут только те страны, которых нет в списке)"
+            "GeoIp的工作模式",
+            "0 - 白名单模式(只有在ALLOWED_COUNTRIES列表中的国家才能进入)",
+            "1 - 黑名单模式(只有不在ALLOWED_COUNTRIES列表中的国家才能进入)"
             })
         public int TYPE = 0;
         @Comment(
             {
-            "Откуда качать GEOIP",
-            "Меняйте ссылку если по какой-то причине не качается по этой",
-            "Файл должен заканчиваться на .mmdb или быть запакован в .tar.gz"
+            "从哪里下载GeoIp数据库?",
+            "如果该链接因为某些原因无法下载, 请更改它",
+            "文件必须以 .mmdb 结尾或打包成 .tar.gz"
             })
         public String NEW_GEOIP_DOWNLOAD_URL = "https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-Country&license_key=%license_key%&suffix=tar.gz";
         @Comment(
             {
-            "Если ключ перестанет работать, то для того чтобы получить новый необходимо зарегестироваться на https://www.maxmind.com/",
-            "и сгенерировать новый ключ на странице https://www.maxmind.com/en/accounts/current/license-key"
+            "如果密钥失效, 你需要在 https://www.maxmind.com/ 注册一个账号",
+            "并在 https://www.maxmind.com/en/accounts/current/license-key 生成一个新的密钥"
             })
         public String MAXMIND_LICENSE_KEY = "P5g0fVdAQIq8yQau";
-        @Comment("Разрешённые странны")
+        @Comment("国家代码列表, 请参考 https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2")
         public List<String> ALLOWED_COUNTRIES = Arrays.asList( "RU", "UA", "BY", "KZ", "EE", "MD", "KG", "AZ", "LT", "LV", "GE", "PL" );
     }
 
-    @Comment("Включить или отключить проверку на высокий пинг")
+    @Comment("启用或禁用高延迟检查")
     public static class PING_CHECK
     {
 
         @Comment(
             {
-            "Когда работает проверка",
-            "0 - Всегда",
-            "1 - Только во время бот атаки",
-            "2 - Отключить"
+            "在什么时候启用该检查?",
+            "0 - 总是",
+            "1 - 只在被假人攻击时",
+            "2 - 禁用"
             })
         public int MODE = 1;
-        @Comment("Максимальный допустимый пинг")
+        @Comment("最大延迟")
         public int MAX_PING = 350;
     }
 
-    @Comment("Включить или отключить проверку на прямое подключение")
+    @Comment("启用或禁用直接连接检查")
     public static class SERVER_PING_CHECK
     {
 
         @Comment(
             {
-            "Когда работает проверка",
-            "0 - Всегда",
-            "1 - Только во время бот атаки",
-            "2 - Отключить",
-            "По умолчанию отключено, по скольку работает не очень стабильно, во время сильных атак"
+            "在什么时候启用该检查?",
+            "0 - 总是",
+            "1 - 只在被假人攻击时",
+            "2 - 禁用",
+            "由于在面对强力攻击时不稳定, 此检查默认禁用"
             })
         public int MODE = 2;
-        @Comment("В течении какого времени можно заходить на сервер после получения мотд сервера")
+        @Comment("客户端接收到服务器MOTD后允许多少秒内进入服务器")
         public int CACHE_TIME = 12;
         public List<String> KICK_MESSAGE = new ArrayList()
         {
             {
                 add( "%nl%" );
                 add( "%nl%" );
-                add( "&cВы были кикнуты! Не используйте прямое подключение" );
+                add( "&c你已被踢出! 请不要使用直接连接" );
                 add( "%nl%" );
                 add( "%nl%" );
-                add( "&bДля того чтобы зайти на сервер:" );
+                add( "&b要进入服务器:" );
                 add( "%nl%" );
-                add( "&71) &rДобавте сервер в &lсписок серверов." );
+                add( "&71) &r将服务器添加到 &l服务器列表中." );
                 add( "%nl%" );
-                add( "&lНаш айпи &8>> &b&lIP" );
-                add( "%nl%" );
-                add( "%nl%" );
-                add( "&72) &rОбновите список серверов. " );
-                add( "%nl%" );
-                add( "&oЧтобы его обновить нажмите кнопку &c&lОбновить &r&oили &c&lRefresh" );
+                add( "&l我们的IP &8>> &b&lIP" );
                 add( "%nl%" );
                 add( "%nl%" );
-                add( "&73) &rПодождите &c1-3&r секунды и заходите!" );
+                add( "&72) &r刷新服务器列表. " );
+                add( "%nl%" );
+                add( "&o要刷新服务器列表, 请点击 &c&l刷新&r 按钮" );
+                add( "%nl%" );
+                add( "%nl%" );
+                add( "&73) &r等待 &c1-3&r 秒后进入服务器!" );
 
             }
         };
@@ -181,33 +181,33 @@ public class Settings extends Config
 
     @Comment(
         {
-        "Настройка как именно будет работать защита",
-        "0 - Только проверка с помошью капчи",
-        "1 - Проверка на падение + капча",
-        "2 - Проверка на падение, если провалилась, то капча"
+        "设置反假人保护的操作模式",
+        "0 - 验证码检查",
+        "1 - 重力检查 + 验证码检查",
+        "2 - 重力检查, 如果验证失败再进行验证码检查"
         })
     public static class PROTECTION
     {
 
-        @Comment("Режим работы пока нет атаки")
+        @Comment("无攻击时的操作模式")
         public int NORMAL = 2;
-        @Comment("Режим работы во время атаки")
+        @Comment("被攻击时的操作模式")
         public int ON_ATTACK = 1;
         @Comment(
             {
-            "Включить ли постоянную проверку игроков при заходе?",
-            "Включая эту функци, не забудьте увелечить лимиты у protection-threshold"
+            "是否总是检查玩家?",
+            "启用此功能时, 请不要忘记将 protection-threshold 的值设置得更高"
             })
         public boolean ALWAYS_CHECK = false;
 
         @Comment(
             {
-            "Проверять ли игроков у которых ип 127.0.0.1?", "Может быть полезным при использовании Geyser",
-            "0 - проверять", "1 - отключить проверку", "2 - проверять при каждом заходе"
+            "检查 ip 为 127.0.0.1 的玩家?", "使用 Geyser 时可能会有用",
+            "0 - 检查", "1 - 不检查", "2 - 总是检查"
             })
         public int CHECK_LOCALHOST = 0;
 
-        @Comment("Отключить ли проверку для клиентов с Geyser-standalone? Тип авторищации должен быть floodgate.")
+        @Comment("禁用 Geyser-standalone 在无攻击时的检查? auth-type必须设置为 floodgate")
         public boolean SKIP_GEYSER = false;
         /*
         @Comment(
@@ -222,33 +222,33 @@ public class Settings extends Config
          */
     }
 
-    @Comment("Настройка датабазы")
+    @Comment("数据库设置")
     public static class SQL
     {
 
-        @Comment("Тип датабазы. sqlite или mysql")
+        @Comment("数据库类型 sqlite 或 mysql")
         public String STORAGE_TYPE = "sqlite";
-        @Comment("Через сколько дней удалять игроков из датабазы, которые прошли проверку и больше не заходили. 0 или меньше чтобы отключить")
+        @Comment("从数据库内删除多少天内通过验证且没有再登录过的玩家. 将该值设置为0或更小的值以禁用该功能")
         public int PURGE_TIME = 14;
-        @Comment("Настройки для mysql")
+        @Comment("mysql设置")
         public String HOSTNAME = "127.0.0.1";
         public int PORT = 3306;
         public String USER = "user";
         public String PASSWORD = "password";
         public String DATABASE = "database";
-        @Comment("Интервал в милисекундах, как часто синхронизировать базу данных если используется мультибанжа")
+        @Comment("多久内同步一次数据库? 以毫秒为单位. 在使用多个BungeeCord时可能会有用")
         public int SYNC_INTERVAL = -1;
     }
 
-    @Comment("Настройка виртуального мира")
+    @Comment("虚拟世界设置")
     public static class DIMENSIONS
     {
         @Comment(
             {
-            "Какой мир использовать",
-            "0 - Обычный мир",
-            "1 - Ад",
-            "2 - Энд"
+            "使用哪个世界维度?",
+            "0 - 主世界",
+            "1 - 下界",
+            "2 - 末地"
             })
         public int TYPE = 0;
     }
