@@ -104,7 +104,7 @@ public class GeoIp
                 reader = new DatabaseReader.Builder( file ).withCache( new CHMCache( 4096 * 4 ) ).build();
             } catch ( IOException ex )
             {
-                LOGGER.log( Level.WARNING, "[BotFilter] На могу подключиться к GeoLite2 датабазе. Перекачиваю", ex );
+                LOGGER.log( Level.WARNING, "[BotFilter] 无法连接到 GeoLite2 ,正在重新下载……", ex );
                 file.delete();
                 setupDataBase( true );
             }
@@ -113,7 +113,7 @@ public class GeoIp
 
     private void downloadDataBase(final File out)
     {
-        LOGGER.log( Level.INFO, "[BotFilter] Скачиваю GeoLite2 датабазу" );
+        LOGGER.log( Level.INFO, "[BotFilter] 正在下载 Geolite2 数据库" );
         long start = System.currentTimeMillis();
         try
         {
@@ -141,7 +141,7 @@ public class GeoIp
                     }
                 } else
                 {
-                    throw new IOException( "File type is not supported " );
+                    throw new IOException( "文件类型不支持 " );
                 }
             }
             setupDataBase( true );
@@ -151,10 +151,10 @@ public class GeoIp
             {
                 setupDataBase( false );
             }
-            LOGGER.log( Level.WARNING, "[BotFilter] Не могу скачать GeoLite2 датабазу", ex );
+            LOGGER.log( Level.WARNING, "[BotFilter] 无法下载 Geolite2 数据库", ex );
             return;
         }
-        LOGGER.log( Level.INFO, "[BotFilter] GeoLite2 загружена ({0}мс)", System.currentTimeMillis() - start );
+        LOGGER.log( Level.INFO, "[BotFilter] GeoLite2 已加载 ({0}ms)", System.currentTimeMillis() - start );
     }
 
     private void saveToFile(InputStream stream, File out) throws IOException
@@ -169,7 +169,7 @@ public class GeoIp
                 {
                     fis.close();
                     out.delete();
-                    LOGGER.log( Level.WARNING, "[BotFilter] Не удалось скачать GeoLite2 датабазу. Удаляю недокачанный файл." );
+                    LOGGER.log( Level.WARNING, "[BotFilter] 无法使用 GeoLite2 正在删除未知文件." );
                     return;
                 }
                 fis.write( buffer, 0, count );
