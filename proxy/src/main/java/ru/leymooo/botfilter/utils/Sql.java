@@ -57,7 +57,7 @@ public class Sql
                 return;
             }
             this.connection = null;
-            logger.info( "[BotFilter] Подключаюсь к базе данных..." );
+            logger.info( "[BotFilter] 正在连接到据库..." );
             long start = System.currentTimeMillis();
             if ( Settings.IMP.SQL.STORAGE_TYPE.equalsIgnoreCase( "mysql" ) )
             {
@@ -68,7 +68,7 @@ public class Sql
                 Class.forName( "org.sqlite.JDBC" );
                 connectToDatabase( "JDBC:sqlite:BotFilter/database.db", null, null );
             }
-            logger.log( Level.INFO, "[BotFilter] Подключено ({0} мс)", System.currentTimeMillis() - start );
+            logger.log( Level.INFO, "[BotFilter] 数据库已连接 ({0} ms)", System.currentTimeMillis() - start );
             createTable();
             alterLastJoinColumn();
             clearOldUsers();
@@ -77,7 +77,7 @@ public class Sql
         } catch ( SQLException | ClassNotFoundException e )
         {
             executor.schedule( this::setupConnect, 5, TimeUnit.SECONDS );
-            logger.log( Level.WARNING, "Can not connect to database or execute sql: ", e );
+            logger.log( Level.WARNING, "无法连接到数据库或执行sql: ", e );
             if ( connection != null )
             {
                 Connection conn = connection;
@@ -124,7 +124,7 @@ public class Sql
             }
         } catch ( Exception e )
         {
-            logger.log( Level.WARNING, "[BotFilter] Ошибка при добавлении столбца в таблицу", e );
+            logger.log( Level.WARNING, "[BotFilter] 向数据库中添加列时出错", e );
         }
     }
 
@@ -141,7 +141,7 @@ public class Sql
         botFilter.getUserCache().entrySet().removeIf( (entry) -> entry.getValue().getLastJoin() < until );
         if ( ( before - botFilter.getUsersCount() ) > 0 )
         {
-            logger.log( Level.INFO, "[BotFilter] Удалено {0} аккаунтов из памяти", before - botFilter.getUsersCount() );
+            logger.log( Level.INFO, "[BotFilter] 从内存中删除了 {0} 个账号", before - botFilter.getUsersCount() );
         }
         if ( this.connection != null )
         {
@@ -150,7 +150,7 @@ public class Sql
                 int removed = statement.executeUpdate();
                 if ( removed > 0 )
                 {
-                    logger.log( Level.INFO, "[BotFilter] Удалено {0} аккаунтов из датабазы", removed );
+                    logger.log( Level.INFO, "[BotFilter] 从数据库中删除了 {0} 个账号", removed );
                 }
             }
         }
@@ -195,12 +195,12 @@ public class Sql
             }
             if ( synced > 0 )
             {
-                logger.log( Level.INFO, "[BotFilter] Синхронизировано ({0}) новых проверок", synced );
+                logger.log( Level.INFO, "[BotFilter] 已同步 ({0}) 个检查", synced );
             }
             lastSync = curr;
         } catch ( Exception e )
         {
-            logger.log( Level.WARNING, "[BotFilter] Не удалось синхронизировать проверки", e );
+            logger.log( Level.WARNING, "[BotFilter] 无法同步检查", e );
             setupConnect();
         }
     }
@@ -226,7 +226,7 @@ public class Sql
                 botFilter.addUserToCache( botFilterUser );
                 i++;
             }
-            logger.log( Level.INFO, "[BotFilter] Белый список игроков успешно загружен ({0})", i );
+            logger.log( Level.INFO, "[BotFilter] 白名单已加载 ({0})", i );
         }
     }
 
@@ -280,7 +280,7 @@ public class Sql
                     }
                 } catch ( SQLException ex )
                 {
-                    logger.log( Level.WARNING, "[BotFilter] Не могу выполнить запрос к базе данных", ex );
+                    logger.log( Level.WARNING, "[BotFilter] 无法执行数据库查询", ex );
                     logger.log( Level.WARNING, sql );
                     setupConnect();
                 }
@@ -298,7 +298,7 @@ public class Sql
             } catch ( SQLException ex )
             {
                 setupConnect();
-                logger.log( Level.WARNING, "[BotFilter] Не могу очистить пользователей", ex );
+                logger.log( Level.WARNING, "[BotFilter] 无法清理玩家列表", ex );
             }
 
         }
