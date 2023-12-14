@@ -35,30 +35,30 @@ public class BotFilterCommand extends Command
         if ( args.length == 0 )
         {
             sender.sendMessage( "§r--------------- §bBotFilter §cv" + Settings.IMP.BOT_FILTER_VERSION + "§r-----------------" );
-            sender.sendMessage( "§r> §lbotfilter reload §6- §aПерезагружить конфиг" );
-            sender.sendMessage( "§r> §lbotfilter stat §6- §aПоказать статистику" );
-            sender.sendMessage( "§r> §lbotfilter export §6- §aВыгрузить список игроков, которые прошли проверку" );
-            sender.sendMessage( "§r> §lbotfilter protection on/off §6- §aВключить или выключить ручной режим 'под атакой'" );
+            sender.sendMessage( "§r> §lbotfilter reload §6- §a重载配置" );
+            sender.sendMessage( "§r> §lbotfilter stat §6- §a显示统计数据" );
+            sender.sendMessage( "§r> §lbotfilter export §6- §a导出已通过验证的玩家列表" );
+            sender.sendMessage( "§r> §lbotfilter protection on/off §6- §a手动启用或禁用'受到攻击'模式'" );
             sender.sendMessage( "§r--------------- §bBotFilter §r-----------------" );
         } else if ( args[0].equalsIgnoreCase( "reload" ) )
         {
             BungeeCord.getInstance().getBotFilter().disable();
             BungeeCord.getInstance().setBotFilter( new BotFilter( false ) );
-            sender.sendMessage( "§aКоманда выполнена" );
+            sender.sendMessage( "§a命令已执行" );
         } else if ( args[0].equalsIgnoreCase( "stat" ) || args[0].equalsIgnoreCase( "stats" ) || args[0].equalsIgnoreCase( "info" ) )
         {
             sendStat( sender );
         } else if ( args[0].equalsIgnoreCase( "export" ) )
         {
             export( sender, args );
-            sender.sendMessage( "§aКоманда выполнена" );
+            sender.sendMessage( "§a命令已执行" );
         } else if ( args[0].equalsIgnoreCase( "protection" ) )
         {
             if ( args.length >= 2 )
             {
                 boolean enable = args[1].equalsIgnoreCase( "on" );
                 BungeeCord.getInstance().getBotFilter().setForceProtectionEnabled( enable );
-                sender.sendMessage( "§aЗашита " + ( enable ? "включена" : "§cотключена" ) );
+                sender.sendMessage( "§a保护已 " + ( enable ? "启用" : "§c禁用" ) );
             }
         }
     }
@@ -67,10 +67,9 @@ public class BotFilterCommand extends Command
     {
         BotFilter botFilter = BungeeCord.getInstance().getBotFilter();
         sender.sendMessage( "§r----------------- §bBotFilter §cv" + Settings.IMP.BOT_FILTER_VERSION + " §r-----------------" );
-        sender.sendMessage( "§r> §lОбнаружена атака: " + ( botFilter.isUnderAttack() ? "§cДа" : "§aНет" ) );
-        sender.sendMessage( "§r> §lБотов на проверке: " + botFilter.getOnlineOnFilter() );
-        sender.sendMessage( "§r> §lПрошло проверку: " + botFilter.getUsersCount() );
-        sender.sendMessage( "§r> §lСкачать BotFilter: http://www.rubukkit.org/threads/137038/" );
+        sender.sendMessage( "§r> §l受到攻击: " + ( botFilter.isUnderAttack() ? "§c是" : "§a否" ) );
+        sender.sendMessage( "§r> §l验证中的玩家/假人: " + botFilter.getOnlineOnFilter() );
+        sender.sendMessage( "§r> §l已通过验证的玩家: " + botFilter.getUsersCount() );
     }
 
     private void export(CommandSender sender, String[] args)
@@ -79,10 +78,10 @@ public class BotFilterCommand extends Command
 
         if ( args.length == 1 )
         {
-            sender.sendMessage( "§r> §lbotfilter export [TIME_IN_SECONDS] §6- §aвыгрузить список тех, кто прошёл"
-                + " проверку за указаное время. укажите ALL чтобы получить за всё время." );
-            sender.sendMessage( "§r> §lbotfilter export [TIME_IN_SECONDS] JOIN §6- §aвыгрузить список тех,"
-                + " кто зашёл на сервер за указанное время (Учитывает и тех кто  также и прошёл проверку)." );
+            sender.sendMessage( "§r> §lbotfilter export [TIME_IN_SECONDS] §6- §a导出指定时间内通过验证的玩家列表. "
+                    + "使用 \"ALL\" 获取所有时间的列表" );
+            sender.sendMessage( "§r> §lbotfilter export [TIME_IN_SECONDS] JOIN §6- §a导出指定时间登录服务器的玩家列表. "
+                    + "(包括通过验证的玩家)" );
             return;
         }
         if ( args[1].equalsIgnoreCase( "all" ) )
@@ -120,7 +119,7 @@ public class BotFilterCommand extends Command
             exportToFile( out, join );
         } catch ( Exception e )
         {
-            sender.sendMessage( "§cУкажите число" );
+            sender.sendMessage( "§c请输入你所看到的数字" );
         }
     }
 
@@ -132,7 +131,7 @@ public class BotFilterCommand extends Command
             Files.write( outFile, out, StandardCharsets.UTF_8, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING );
         } catch ( IOException e )
         {
-            BungeeCord.getInstance().getLogger().log( Level.WARNING, "[BotFilter] Could not export ip's to file", e );
+            BungeeCord.getInstance().getLogger().log( Level.WARNING, "[BotFilter] 无法将 ip 导出到文件", e );
         }
     }
 
