@@ -4,30 +4,29 @@ on: [push, pull_request]
 
 jobs:
   build:
-    runs-on: ubuntu-22.04
- 
+    runs-on: ubuntu-latest # Use 'ubuntu-latest' for the latest stable version
+
     strategy:
       fail-fast: false
       matrix:
         java: [17]
 
-    name: Java ${{ matrix.java }}
+    name: Java ${{ matrix.java }} Build
 
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-java@v3
-      with:
-        distribution: 'temurin'
-        java-version: ${{ matrix.java }}
-    - uses: actions/cache@v3
-      with:
-        path: ~/.m2/repository
-        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-        restore-keys: |
-          ${{ runner.os }}-maven-
-    - run: java -version && mvn --version
-    - run: mvn --activate-profiles dist --no-transfer-progress package
-    - uses: actions/upload-artifact@v3
-      with:
-        name: BungeeCord
-        path: bootstrap/target/BungeeCord.jar
+      - uses: actions/checkout@v3
+      - name: Set up JDK ${{ matrix.java }}
+        uses: actions/setup-java@v3
+        with:
+          distribution: "temurin" # AdoptOpenJDK's Eclipse Temurin distribution
+          java-version: ${{ matrix.java }}
+          cache: "maven" # Simplify caching by using the setup-java built-in cache
+      - name: Verify Java and Maven Versions
+        run: java -version && mvn --version
+      - name: Build with Maven
+        run: mvn --batch-mode --update-snapshots --activate-profiles dist --no-transfer-progress package
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: BungeeCord-Java${{ matrix.java }}
+          path: bootstrap/target/BungeeCord.jar
